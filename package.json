@@ -28,7 +28,7 @@
     "reactstrap": "^5.0.0-beta.2",
     "style-loader": "^0.20.2",
     "truffle-contract": "^3.0.4",
-    "web3": "^1.0.0-beta.30",
+    "web3": "^0.20.5",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.0.0"
