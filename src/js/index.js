@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Web3 from 'web3'
+import Election from '../../build/contracts/Election.json'
 
 class App extends React.Component {
 
