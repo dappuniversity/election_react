@@ -1,4 +1,5 @@
 import React from 'react'
+import Form from './Form'
 
 class Content extends React.Component {
   render() {
@@ -25,25 +26,11 @@ class Content extends React.Component {
           </tbody>
         </table>
         <hr/>
-        <form onSubmit={(event) => {
-          event.preventDefault()
-          this.props.castVote(this.candidateId.value)
-        }}>
-          <div class='form-group'>
-            <label for='candidatesSelect'>Select Candidate</label>
-            <select ref={(input) => this.candidateId = input} class='form-control'>
-              {this.props.candidates.map((candidate) => {
-                return <option value={candidate.id}>{candidate.name}</option>
-              })}
-            </select>
-          </div>
-          <button type='submit' class='btn btn-primary'>Vote</button>
-          <hr />
-        </form>
-        <p class='text-center'>Your account: {this.props.account}</p>
+        <Form candidates={this.props.candidates} castVote={this.props.castVote} />
+        <p>Your account: {this.props.account}</p>
       </div>
-    );
+    )
   }
 }
 
-export default Content;
+export default Content
