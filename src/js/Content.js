@@ -8,7 +8,10 @@ class Content extends React.Component {
       <div>
         <Table candidates={this.props.candidates} />
         <hr/>
-        <Form candidates={this.props.candidates} castVote={this.props.castVote} />
+        { !this.props.hasVoted ?
+          <Form candidates={this.props.candidates} castVote={this.props.castVote} />
+          : null
+        }
         <p>Your account: {this.props.account}</p>
       </div>
     )
