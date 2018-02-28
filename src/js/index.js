@@ -32,10 +32,10 @@ class App extends React.Component {
     this.watchEvents = this.watchEvents.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // TODO: Refactor with promise chain
     this.web3.eth.getCoinbase((err, account) => {
-      this.setState({ account, loading: false })
+      this.setState({ account })
       this.election.deployed().then((electionInstance) => {
         this.electionInstance = electionInstance
         this.watchEvents()
@@ -53,19 +53,18 @@ class App extends React.Component {
           }
         })
         this.electionInstance.voters(this.state.account).then((hasVoted) => {
-          this.setState({ hasVoted })
+          this.setState({ hasVoted, loading: false })
         })
       })
     })
   }
 
   watchEvents() {
-    console.log("Watching events...")
+    // TODO: trigger event when vote is counted, not when component renders
     this.electionInstance.votedEvent({}, {
       fromBlock: 0,
       toBlock: 'latest'
     }).watch((error, event) => {
-      console.log("Event triggered!")
       this.setState({ voting: false })
     })
   }
