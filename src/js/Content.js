@@ -7,13 +7,13 @@ class Content extends React.Component {
         <table class='table'>
           <thead>
             <tr>
-              <th scope='col'>#</th>
-              <th scope='col'>Name</th>
-              <th scope='col'>Votes</th>
+              <th>#</th>
+              <th>Name</th>
+              <th>Votes</th>
             </tr>
           </thead>
-          <tbody id='candidatesResults'>
-            { this.props.candidates.map((candidate) => {
+          <tbody >
+            {this.props.candidates.map((candidate) => {
               return(
                 <tr>
                   <th>{candidate.id.toNumber()}</th>
@@ -25,16 +25,22 @@ class Content extends React.Component {
           </tbody>
         </table>
         <hr/>
-        <form onSubmit='App.castVote(); return false;'>
+        <form onSubmit={(event) => {
+          event.preventDefault()
+          this.props.castVote(this.candidateId.value)
+        }}>
           <div class='form-group'>
             <label for='candidatesSelect'>Select Candidate</label>
-            <select class='form-control' id='candidatesSelect'>
+            <select ref={(input) => this.candidateId = input} class='form-control'>
+              {this.props.candidates.map((candidate) => {
+                return <option value={candidate.id}>{candidate.name}</option>
+              })}
             </select>
           </div>
           <button type='submit' class='btn btn-primary'>Vote</button>
           <hr />
         </form>
-        <p id='accountAddress' class='text-center'>Your account: {this.props.account}</p>
+        <p class='text-center'>Your account: {this.props.account}</p>
       </div>
     );
   }

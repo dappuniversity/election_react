@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       loading: true,
-      electionInstance: null,
+      voting: false,
       account: '0x0',
       hasVoted: false,
       candidates: [],
@@ -27,6 +27,8 @@ class App extends React.Component {
 
     this.election = TruffleContract(Election)
     this.election.setProvider(this.web3Provider)
+
+    this.castVote = this.castVote.bind(this)
   }
 
   componentWillMount(){
@@ -37,14 +39,21 @@ class App extends React.Component {
   listenToEvents() {
   }
 
+  castVote(candidateId) {
+    this.setState({ voting: true })
+    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) => {
+      this.setState({ hasVoted: true })
+    })
+  }
+
   updateState() {
     this.web3.eth.getCoinbase((err, account) => {
       this.setState({ account, loading: false })
       this.election.deployed().then((electionInstance) => {
-        this.setState({ electionInstance })
-        electionInstance.candidatesCount().then((candidatesCount) => {
+        this.electionInstance = electionInstance
+        this.electionInstance.candidatesCount().then((candidatesCount) => {
           for (var i = 1; i <= candidatesCount; i++) {
-            electionInstance.candidates(i).then((candidate) => {
+            this.electionInstance.candidates(i).then((candidate) => {
               const candidates = [...this.state.candidates]
               candidates.push({
                 id: candidate[0],
@@ -65,9 +74,9 @@ class App extends React.Component {
         <div class='col-lg-12 text-center' >
           <h1 class='text-center'>Election Results</h1>
           <br/>
-          { this.state.loading
+          { this.state.loading || this.state.voting
             ? <p class='text-center'>Loading...</p>
-            : <Content account={this.state.account} candidates={this.state.candidates} />
+            : <Content account={this.state.account} candidates={this.state.candidates} castVote={this.castVote} />
           }
         </div>
       </div>
