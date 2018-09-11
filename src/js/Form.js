@@ -1,6 +1,6 @@
 import React from 'react'
 
-class from extends React.Component {
+class Form extends React.Component {
   render() {
     return (
       <form onSubmit={(event) => {
@@ -22,4 +22,4 @@ class from extends React.Component {
   }
 }
 
-export default from
+export default Form
